@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import com.madx.field.FieldAccessController;
-import com.madx.parentheses.Parenthesis;
-import com.madx.parentheses.ParenthesisTree;
-import com.madx.parentheses.ParenthesisTree.QueryContainer;
+import com.madx.field.FieldAccessor;
+import com.madx.parenthesis.Parenthesis;
+import com.madx.parenthesis.ParenthesisTree;
+import com.madx.parenthesis.ParenthesisTree.QueryContainer;
 
 class IfQueryInterpreter extends QueryInterpreter {
 	private static IfQueryInterpreter instance = null;
@@ -30,16 +30,16 @@ class IfQueryInterpreter extends QueryInterpreter {
 		String ifExpression = m.group(this.FIRST_GROUP + 1);
 		
 		if(ifCondition.startsWith(ParenthesisTree.REPL)){
-			ifCondition = ifCondition.replace(ifCondition, c.map.get(ifCondition));
+			ifCondition = ifCondition.replace(ifCondition, c.getReplacement(ifCondition));
 		}
 		
-		Boolean condition = (Boolean) QueryInterpreter.getReplacement(new QueryContainer(ifCondition, c.map), navigated).objects.get(0);
+		Boolean condition = (Boolean) QueryInterpreter.getReplacement(new QueryContainer(ifCondition, c.replacements), navigated).objects.get(0);
 		if(condition.booleanValue()){
 			if(ifExpression.startsWith(ParenthesisTree.REPL)){
-				ifExpression = ifExpression.replace(ifExpression, c.map.get(ifExpression));
-				return QueryInterpreter.getReplacement(new QueryContainer(ifExpression, c.map), navigated);
+				ifExpression = ifExpression.replace(ifExpression, c.getReplacement(ifExpression));
+				return QueryInterpreter.getReplacement(new QueryContainer(ifExpression, c.replacements), navigated);
 			}
-			Object o = FieldAccessController.getObjectFromComplexField(navigated, m.group(this.FIRST_GROUP + 1));
+			Object o = FieldAccessor.getObjectFromComplexField(navigated, m.group(this.FIRST_GROUP + 1));
 			return new Replacement(expressionQuestionMarks(o), expressionObjects(o));
 		} else {
 			return new Replacement("", Collections.emptyList());

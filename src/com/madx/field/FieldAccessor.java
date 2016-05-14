@@ -3,7 +3,7 @@ package com.madx.field;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-public class FieldAccessController {
+public class FieldAccessor {
 	
 	public static Object getObjectFromComplexField(Object o, String complexField) throws Exception{
 		if(complexField.contains(".")){

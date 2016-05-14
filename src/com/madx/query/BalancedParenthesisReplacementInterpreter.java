@@ -2,9 +2,9 @@ package com.madx.query;
 
 import java.util.regex.Matcher;
 
-import com.madx.parentheses.Parenthesis;
-import com.madx.parentheses.ParenthesisTree;
-import com.madx.parentheses.ParenthesisTree.QueryContainer;
+import com.madx.parenthesis.Parenthesis;
+import com.madx.parenthesis.ParenthesisTree;
+import com.madx.parenthesis.ParenthesisTree.QueryContainer;
 
 /**
  * Uregistered Interpreter
@@ -30,8 +30,8 @@ class BalancedParenthesisReplacementInterpreter extends QueryInterpreter {
 		if(completeString.matches(Parenthesis.getFullRegex())){
 			String innerExpression = completeString.substring(1, completeString.length()-1);
 			if(innerExpression.startsWith(ParenthesisTree.REPL)){
-				innerExpression = innerExpression.replace(innerExpression, c.map.get(innerExpression));
-				Replacement r = QueryInterpreter.getReplacement(new QueryContainer(innerExpression, c.map), navigated);
+				innerExpression = innerExpression.replace(innerExpression, c.getReplacement(innerExpression));
+				Replacement r = QueryInterpreter.getReplacement(new QueryContainer(innerExpression, c.replacements), navigated);
 				r.query = completeString.charAt(0) + r.query + completeString.charAt(completeString.length()-1);
 				return r;
 			}

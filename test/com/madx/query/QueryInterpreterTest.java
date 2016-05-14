@@ -9,13 +9,12 @@ import org.junit.Test;
 
 import com.madx.example.FirstExample;
 import com.madx.example.SecondExample;
-import com.madx.parentheses.ParenthesisTree;
-import com.madx.parentheses.ParenthesisTree.QueryContainer;
+import com.madx.parenthesis.ParenthesisTree;
+import com.madx.parenthesis.ParenthesisTree.QueryContainer;
 import com.madx.query.QueryInterpreter.Replacement;
 
 public class QueryInterpreterTest {
-	@Test
-	public void test1() throws Exception{
+	public static void main(String[] args) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		FirstExample f = new FirstExample(BigDecimal.valueOf(10), 20, new SecondExample(30, Arrays.asList(1,2,3,4), new Integer[]{5,6,7}), "SOSTITUITO!!!");
 		
@@ -44,5 +43,10 @@ public class QueryInterpreterTest {
 		System.out.println(q + "\n\n");
 		Replacement r = QueryInterpreter.getReplacement(q, map);
 		System.out.println(r);
+	}
+	
+	@Test
+	public void test1() throws Exception{
+		
 	}
 }

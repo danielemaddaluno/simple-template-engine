@@ -9,8 +9,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.madx.parentheses.Parenthesis;
-import com.madx.parentheses.ParenthesisTree.QueryContainer;
+import com.madx.parenthesis.Parenthesis;
+import com.madx.parenthesis.ParenthesisTree.QueryContainer;
 
 public abstract class QueryInterpreter {
 	protected String SYMBOL;

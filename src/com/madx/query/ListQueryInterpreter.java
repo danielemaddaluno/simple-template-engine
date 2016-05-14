@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import com.madx.field.FieldAccessController;
-import com.madx.parentheses.Parenthesis;
-import com.madx.parentheses.ParenthesisTree.QueryContainer;
+import com.madx.field.FieldAccessor;
+import com.madx.parenthesis.Parenthesis;
+import com.madx.parenthesis.ParenthesisTree.QueryContainer;
 
 class ListQueryInterpreter extends QueryInterpreter {
 
@@ -24,7 +24,7 @@ class ListQueryInterpreter extends QueryInterpreter {
 
 	@Override
 	public Replacement evaluateExpression(Object navigated, Matcher m, QueryContainer c) throws Exception {
-		Object o = FieldAccessController.getObjectFromComplexField(navigated, m.group(this.FIRST_GROUP));
+		Object o = FieldAccessor.getObjectFromComplexField(navigated, m.group(this.FIRST_GROUP));
 		return new Replacement(expressionQuestionMarks(o), expressionObjects(o));
 	}
 
