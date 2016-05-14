@@ -1,11 +1,8 @@
 package com.madx.ste.query;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.regex.Matcher;
 
-import com.madx.ste.field.FieldAccessor;
 import com.madx.ste.parenthesis.Parenthesis;
 import com.madx.ste.parenthesis.ParenthesisTree;
 import com.madx.ste.parenthesis.ParenthesisTree.QueryContainer;
@@ -38,21 +35,11 @@ class IfQueryInterpreter extends QueryInterpreter {
 			if(ifExpression.startsWith(ParenthesisTree.REPL)){
 				ifExpression = ifExpression.replace(ifExpression, c.getReplacement(ifExpression));
 				return QueryInterpreter.getReplacement(new QueryContainer(ifExpression, c.replacements), navigated);
+			} else {
+				return new Replacement(ifExpression, Collections.emptyList()); 
 			}
-			// TODO verify this below is correct
-			Object o = FieldAccessor.getObjectFromComplexField(navigated, m.group(this.FIRST_GROUP + 1));
-			return new Replacement(expressionQuestionMarks(o), expressionObjects(o));
 		} else {
 			return new Replacement("", Collections.emptyList());
 		}
-	}
-
-	private String expressionQuestionMarks(Object o) throws Exception {
-		if(o.getClass().isArray() || o instanceof Iterable<?>) throw new Exception();
-		return "?";
-	}
-
-	private List<Object> expressionObjects(Object o) throws Exception {
-		return Arrays.asList(o);
 	}
 }

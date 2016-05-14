@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import com.madx.ste.example.ExampleClass;
 import com.madx.ste.field.FieldAccessorTest;
 import com.madx.ste.parenthesis.ParenthesisTree;
 import com.madx.ste.parenthesis.ParenthesisTree.QueryContainer;
@@ -20,9 +22,7 @@ import com.madx.ste.query.QueryInterpreter.Replacement;
 public class QueryInterpreterTest {
 	public static String test1 = "AHAH #{bool}, IF(#{bool}){#{f.x}} (aaa, #{bool}) {ccc, #{bool}} [bbb, #{bool}]";
 	public static String test2 = "insert into tab1 values (#{f.x}, #{f.y}, #{f.m})";
-//	String unfilteredQuery = "AHAH in (a,b,c, #{bool}, IF(#{bool}){ #{f.x} } ) (aaa #{bool}) {ccc #{bool}} [bbb #{bool}]  AND IF( #{bool} ){PROVA IN ${f.z.w} AND C_STA = 2} 'some' string with #{f.x} #{f.z.q}'the data i want' inside a list ${f.z.w} ahah ${f.z.e} test @{f.m} #{a}";
-//	String unfilteredQuery = "AHAH in (a, b, c, #{bool}, IF(#{bool}){#{f.x}}) (aaa, #{bool}) {ccc, #{bool}} [bbb, #{bool}]";
-	
+	public static String test4 = "insert into tab1 values (#{a}, val1, val2) where cod1 in ${b} IF(#{d}){AND} IF(#{e}){OR} cod2 not in ${c}";
 	@Test
 	public void test1() throws Exception{
 		Map<String, Object> map = FieldAccessorTest.getMapExample();
@@ -75,6 +75,25 @@ public class QueryInterpreterTest {
 		
 		assertEquals(o, r.objects);
 		System.out.println(test2);
+		System.out.println(r+"\n");
+	}
+	
+	@Test
+	public void test4() throws Exception{
+		ExampleClass e = new ExampleClass(1, Arrays.asList(100D, 200D), new Long[]{123L, 456L, 789L}, true, false);
+		Replacement r = QueryInterpreter.getReplacement(test4, e);
+		
+		assertEquals("insert into tab1 values (?, val1, val2) where cod1 in (?, ?) AND  cod2 not in (?, ?, ?)", r.query);
+		List<Object> o = new ArrayList<Object>();
+		o.add(1);
+		o.add(100D);
+		o.add(200D);
+		o.add(123L);
+		o.add(456L);
+		o.add(789L);
+		
+		assertEquals(o, r.objects);
+		System.out.println(test4);
 		System.out.println(r+"\n");
 	}
 }
