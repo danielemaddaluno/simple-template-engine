@@ -1,4 +1,4 @@
-package com.madx.query;
+package com.madx.ste.query;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,14 +9,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.madx.parenthesis.Parenthesis;
-import com.madx.parenthesis.ParenthesisTree.QueryContainer;
+import com.madx.ste.parenthesis.Parenthesis;
+import com.madx.ste.parenthesis.ParenthesisTree.QueryContainer;
 
 public abstract class QueryInterpreter {
 	protected String SYMBOL;
 	protected String SYMBOL_REGEX;
 	protected int GROUP_SIZE;
-	public int FIRST_GROUP;
+	protected int FIRST_GROUP;
 	
 	protected static HashMap<String, QueryInterpreter> interpreters = new LinkedHashMap<String, QueryInterpreter>();
 	
@@ -86,7 +86,6 @@ public abstract class QueryInterpreter {
 			Pair pair = replaceInside(c.query, r.query, m.start(), m.end(), offset);
 			offset = pair.offset;
 			c.query = pair.s;
-//			System.err.println("q: " + c.query);
 		}
 		return new Replacement(c.query, list);
 	}
