@@ -20,25 +20,26 @@ class IfQueryInterpreter extends QueryInterpreter {
 	}
 
 	protected IfQueryInterpreter() {
-		super("IF", Parenthesis.PAREN.getRegex() + Parenthesis.BRACE.getRegex());
+		super("IF", Parenthesis.PAREN.getRegex() + Parenthesis.BRACE.getRegex(), 2);
 	}
 
 	@Override
 	public Replacement evaluateExpression(Object navigated, Matcher m, QueryContainer c) throws Exception {
-		// questo if gestisce il vero e proprio if della stringa
+		// this if manages the string IF
 		String ifCondition = m.group(this.FIRST_GROUP);
 		String ifExpression = m.group(this.FIRST_GROUP + 1);
-		
+
 		if(ifCondition.startsWith(ParenthesisTree.REPL)){
 			ifCondition = ifCondition.replace(ifCondition, c.getReplacement(ifCondition));
 		}
-		
+
 		Boolean condition = (Boolean) QueryInterpreter.getReplacement(new QueryContainer(ifCondition, c.replacements), navigated).objects.get(0);
 		if(condition.booleanValue()){
 			if(ifExpression.startsWith(ParenthesisTree.REPL)){
 				ifExpression = ifExpression.replace(ifExpression, c.getReplacement(ifExpression));
 				return QueryInterpreter.getReplacement(new QueryContainer(ifExpression, c.replacements), navigated);
 			}
+			// TODO verify this below is correct
 			Object o = FieldAccessor.getObjectFromComplexField(navigated, m.group(this.FIRST_GROUP + 1));
 			return new Replacement(expressionQuestionMarks(o), expressionObjects(o));
 		} else {
@@ -54,7 +55,4 @@ class IfQueryInterpreter extends QueryInterpreter {
 	private List<Object> expressionObjects(Object o) throws Exception {
 		return Arrays.asList(o);
 	}
-
-
-
 }

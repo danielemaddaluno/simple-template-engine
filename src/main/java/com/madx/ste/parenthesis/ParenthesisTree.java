@@ -7,8 +7,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Used to build a tree from a query string
+ * it is the preprocessing needed to enable the 
+ * parsing of the query using simple regular expressions
+ * @author madx
+ *
+ */
 public class ParenthesisTree {
-
 	public static final String REPL = "REPL_";
 	private static final String ERROR_UNBALANCED = "String unbalanced";
 
@@ -68,7 +74,6 @@ public class ParenthesisTree {
 			q.replacements.set(i, qc.query);
 			q.replacements.addAll(qc.replacements);
 		}
-
 		return q;
 	}
 

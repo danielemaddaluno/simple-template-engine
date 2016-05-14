@@ -38,10 +38,31 @@ public class QueryInterpreterTest {
 		o.add(true);
 		
 		assertEquals(o, r.objects);
+		System.out.println(test1);
+		System.out.println(r+"\n");
 	}
 	
 	@Test
 	public void test2() throws Exception{
+		Map<String, Object> map = FieldAccessorTest.getMapExample();
+		map.put("bool", false);
+		QueryContainer q = ParenthesisTree.getQueryContainer(test1);
+		Replacement r = QueryInterpreter.getReplacement(q, map);
+		
+		assertEquals("AHAH ?,  (aaa, ?) {ccc, ?} [bbb, ?]", r.query);
+		List<Object> o = new ArrayList<Object>();
+		o.add(false);
+		o.add(false);
+		o.add(false);
+		o.add(false);
+		
+		assertEquals(o, r.objects);
+		System.out.println(test1);
+		System.out.println(r+"\n");
+	}
+	
+	@Test
+	public void test3() throws Exception{
 		Map<String, Object> map = FieldAccessorTest.getMapExample();
 		QueryContainer q = ParenthesisTree.getQueryContainer(test2);
 		Replacement r = QueryInterpreter.getReplacement(q, map);
@@ -53,5 +74,7 @@ public class QueryInterpreterTest {
 		o.add("SOSTITUITO!!!");
 		
 		assertEquals(o, r.objects);
+		System.out.println(test2);
+		System.out.println(r+"\n");
 	}
 }

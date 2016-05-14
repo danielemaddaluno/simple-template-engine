@@ -3,8 +3,13 @@ package com.madx.ste.field;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+/**
+ * Class used to navigate over the objects attributes
+ * from a starting object using a string attribute identifier
+ * @author madx
+ *
+ */
 public class FieldAccessor {
-	
 	public static Object getObjectFromComplexField(Object o, String complexField) throws Exception{
 		if(complexField.contains(".")){
 			int dotPosition = complexField.indexOf(".");
