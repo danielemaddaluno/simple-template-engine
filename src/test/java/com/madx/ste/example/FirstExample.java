@@ -1,4 +1,4 @@
-package com.madx.example;
+package com.madx.ste.example;
 
 import java.math.BigDecimal;
 

@@ -1,4 +1,4 @@
-package com.madx.query;
+package com.madx.ste.query;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,8 +9,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.madx.parenthesis.Parenthesis;
-import com.madx.parenthesis.ParenthesisTree.QueryContainer;
+import com.madx.ste.parenthesis.Parenthesis;
+import com.madx.ste.parenthesis.ParenthesisTree.QueryContainer;
 
 public abstract class QueryInterpreter {
 	protected String SYMBOL;

@@ -1,4 +1,4 @@
-package com.madx.parenthesis;
+package com.madx.ste.parenthesis;
 
 public enum Parenthesis {
 	PAREN('(', ')', "\\((.*?)\\)"),

@@ -1,8 +1,9 @@
-package com.madx.parenthesis;
+package com.madx.ste.parenthesis;
 
 import org.junit.Test;
 
-import com.madx.parenthesis.ParenthesisTree.QueryContainer;
+import com.madx.ste.parenthesis.ParenthesisTree;
+import com.madx.ste.parenthesis.ParenthesisTree.QueryContainer;
 
 public class ParenthesisTreeTest {
 	@Test

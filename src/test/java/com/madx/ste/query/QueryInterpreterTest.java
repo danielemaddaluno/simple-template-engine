@@ -1,4 +1,4 @@
-package com.madx.query;
+package com.madx.ste.query;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -7,11 +7,12 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.madx.example.FirstExample;
-import com.madx.example.SecondExample;
-import com.madx.parenthesis.ParenthesisTree;
-import com.madx.parenthesis.ParenthesisTree.QueryContainer;
-import com.madx.query.QueryInterpreter.Replacement;
+import com.madx.ste.example.FirstExample;
+import com.madx.ste.example.SecondExample;
+import com.madx.ste.parenthesis.ParenthesisTree;
+import com.madx.ste.parenthesis.ParenthesisTree.QueryContainer;
+import com.madx.ste.query.QueryInterpreter;
+import com.madx.ste.query.QueryInterpreter.Replacement;
 
 public class QueryInterpreterTest {
 	@Test

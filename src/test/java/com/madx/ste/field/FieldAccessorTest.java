@@ -1,4 +1,4 @@
-package com.madx.field;
+package com.madx.ste.field;
 
 import org.junit.Test;
 

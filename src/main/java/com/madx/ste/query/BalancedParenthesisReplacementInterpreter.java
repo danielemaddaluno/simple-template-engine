@@ -1,10 +1,10 @@
-package com.madx.query;
+package com.madx.ste.query;
 
 import java.util.regex.Matcher;
 
-import com.madx.parenthesis.Parenthesis;
-import com.madx.parenthesis.ParenthesisTree;
-import com.madx.parenthesis.ParenthesisTree.QueryContainer;
+import com.madx.ste.parenthesis.Parenthesis;
+import com.madx.ste.parenthesis.ParenthesisTree;
+import com.madx.ste.parenthesis.ParenthesisTree.QueryContainer;
 
 /**
  * Uregistered Interpreter
