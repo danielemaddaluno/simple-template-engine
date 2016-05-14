@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.madx.ste.parenthesis.Parenthesis;
+import com.madx.ste.parenthesis.ParenthesisTree;
 import com.madx.ste.parenthesis.ParenthesisTree.QueryContainer;
 
 public abstract class QueryInterpreter {
@@ -71,7 +72,12 @@ public abstract class QueryInterpreter {
 
 	public abstract Replacement evaluateExpression(Object navigated, Matcher m, QueryContainer c) throws Exception;
 	
-	public static Replacement getReplacement(QueryContainer c, Object obj) throws Exception{
+	public static Replacement getReplacement(String query, Object obj) throws Exception{
+		QueryContainer q = ParenthesisTree.getQueryContainer(query);
+		return QueryInterpreter.getReplacement(q, obj);
+	}
+	
+	protected static Replacement getReplacement(QueryContainer c, Object obj) throws Exception{
 		List<Object> list = new ArrayList<Object>();
 		Pattern p = Pattern.compile(QueryInterpreter.getFullRegex());
 		Matcher m = p.matcher(c.query);
