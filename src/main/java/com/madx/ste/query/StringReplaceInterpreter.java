@@ -22,7 +22,7 @@ class StringReplaceInterpreter extends QueryInterpreter {
 	}
 
 	@Override
-	public Replacement evaluateExpression(Object navigated, Matcher m, QueryContainer c) throws Exception {
+	protected Replacement evaluateExpression(Object navigated, Matcher m, QueryContainer c) throws Exception {
 		Object o = FieldAccessor.getObjectFromComplexField(navigated, m.group(this.FIRST_GROUP));
 		return new Replacement(expressionQuestionMarks(o), expressionObjects(o));
 	}
