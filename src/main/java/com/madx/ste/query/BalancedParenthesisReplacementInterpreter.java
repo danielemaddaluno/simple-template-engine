@@ -26,7 +26,7 @@ class BalancedParenthesisReplacementInterpreter extends QueryInterpreter {
 	}
 
 	@Override
-	public Replacement evaluateExpression(Object navigated, Matcher m, QueryContainer c) throws Exception {
+	protected Replacement evaluateExpression(Object navigated, Matcher m, QueryContainer c) throws Exception {
 		String completeString = m.group();
 		String innerExpression = m.group(getGroupIndex(completeString.charAt(0)));
 		if(innerExpression.startsWith(ParenthesisTree.REPL)){

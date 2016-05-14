@@ -14,12 +14,13 @@ import com.madx.ste.parenthesis.ParenthesisTree;
 import com.madx.ste.parenthesis.ParenthesisTree.QueryContainer;
 
 public abstract class QueryInterpreter {
-	protected String SYMBOL;
-	protected String SYMBOL_REGEX;
-	protected int GROUP_SIZE;
-	protected int FIRST_GROUP;
+	private String SYMBOL;
+	private String SYMBOL_REGEX;
 	
-	protected static HashMap<String, QueryInterpreter> interpreters = new LinkedHashMap<String, QueryInterpreter>();
+	protected int FIRST_GROUP;
+	protected int GROUP_SIZE;
+	
+	private static HashMap<String, QueryInterpreter> interpreters = new LinkedHashMap<String, QueryInterpreter>();
 	
 	static {
 		AtomicInteger i = new AtomicInteger(1);
@@ -36,16 +37,16 @@ public abstract class QueryInterpreter {
 		interpreters.put(q.SYMBOL, q);
 	}
 	
-	public static String getFullRegex(){
+	private static String getFullRegex(){
 		StringBuilder regexBuilder = new StringBuilder();
 		for (Map.Entry<String, QueryInterpreter> entry : interpreters.entrySet()) {
-			regexBuilder.append(entry.getValue().getRegex() + "|");
+			regexBuilder.append(entry.getValue().SYMBOL_REGEX + "|");
 		}
 		String regex = regexBuilder.toString();
 		return regex.substring(0, regex.length()-1);
 	}
 	
-	public static QueryInterpreter getInterpreterFromString(String s) throws Exception {
+	private static QueryInterpreter getInterpreterFromString(String s) throws Exception {
 		if(s.matches(Parenthesis.getFullRegex())) return BalancedParenthesisReplacementInterpreter.getInstance();
 		
 		if(s.contains("(")){
@@ -66,16 +67,12 @@ public abstract class QueryInterpreter {
 		this(symbol, symbolRegex, 1);
 	}
 	
-	public String getRegex(){
-		return SYMBOL_REGEX;
-	}
-
-	public abstract Replacement evaluateExpression(Object navigated, Matcher m, QueryContainer c) throws Exception;
-	
 	public static Replacement getReplacement(String query, Object obj) throws Exception{
 		QueryContainer q = ParenthesisTree.getQueryContainer(query);
 		return QueryInterpreter.getReplacement(q, obj);
 	}
+	
+	protected abstract Replacement evaluateExpression(Object navigated, Matcher m, QueryContainer c) throws Exception;
 	
 	protected static Replacement getReplacement(QueryContainer c, Object obj) throws Exception{
 		List<Object> list = new ArrayList<Object>();

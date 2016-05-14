@@ -21,7 +21,7 @@ class IfQueryInterpreter extends QueryInterpreter {
 	}
 
 	@Override
-	public Replacement evaluateExpression(Object navigated, Matcher m, QueryContainer c) throws Exception {
+	protected Replacement evaluateExpression(Object navigated, Matcher m, QueryContainer c) throws Exception {
 		// this if manages the string IF
 		String ifCondition = m.group(this.FIRST_GROUP);
 		String ifExpression = m.group(this.FIRST_GROUP + 1);
