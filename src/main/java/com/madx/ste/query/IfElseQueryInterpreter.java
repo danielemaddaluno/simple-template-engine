@@ -8,17 +8,17 @@ import com.madx.ste.parenthesis.Parenthesis;
 import com.madx.ste.parenthesis.ParenthesisTree;
 import com.madx.ste.parenthesis.ParenthesisTree.QueryContainer;
 
-class IfQueryInterpreter extends QueryInterpreter {
-	private static IfQueryInterpreter instance = null;
-	public static IfQueryInterpreter getInstance() {
+class IfElseQueryInterpreter extends QueryInterpreter {
+	private static IfElseQueryInterpreter instance = null;
+	public static IfElseQueryInterpreter getInstance() {
 		if(instance == null) {
-			instance = new IfQueryInterpreter();
+			instance = new IfElseQueryInterpreter();
 		}
 		return instance;
 	}
 
-	protected IfQueryInterpreter() {
-		super("IF", Pattern.quote("IF") + Parenthesis.PAREN.getRegex() + Parenthesis.BRACE.getRegex(), 2);
+	protected IfElseQueryInterpreter() {
+		super("IFE", Pattern.quote("IFE") + Parenthesis.PAREN.getRegex() + Parenthesis.BRACE.getRegex() + Pattern.quote("ELSE") + Parenthesis.BRACE.getRegex(), 3);
 	}
 
 	@Override
@@ -26,6 +26,7 @@ class IfQueryInterpreter extends QueryInterpreter {
 		// this if manages the string IF
 		String ifCondition = m.group(this.FIRST_GROUP);
 		String ifExpression = m.group(this.FIRST_GROUP + 1);
+		String elseExpression = m.group(this.FIRST_GROUP + 2);
 
 		if(ifCondition.startsWith(ParenthesisTree.REPL)){
 			ifCondition = ifCondition.replace(ifCondition, c.getReplacement(ifCondition));
@@ -42,7 +43,12 @@ class IfQueryInterpreter extends QueryInterpreter {
 				return new Replacement(ifExpression, Collections.emptyList()); 
 			}
 		} else {
-			return new Replacement("", Collections.emptyList());
+			if(elseExpression.startsWith(ParenthesisTree.REPL)){
+				elseExpression = elseExpression.replace(elseExpression, c.getReplacement(elseExpression));
+				return QueryInterpreter.getReplacement(new QueryContainer(elseExpression, c.replacements), navigated);
+			} else {
+				return new Replacement(elseExpression, Collections.emptyList()); 
+			}
 		}
 	}
 }

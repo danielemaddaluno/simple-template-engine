@@ -3,6 +3,7 @@ package com.madx.ste.query;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.madx.ste.field.FieldAccessor;
 import com.madx.ste.parenthesis.Parenthesis;
@@ -18,7 +19,7 @@ class SimpleQueryInterpreter extends QueryInterpreter {
 	}
 	
 	protected SimpleQueryInterpreter() {
-		super("#", Parenthesis.BRACE.getRegex());
+		super("#", Pattern.quote("#") + Parenthesis.BRACE.getRegex());
 	}
 
 	@Override

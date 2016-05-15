@@ -15,10 +15,10 @@ import com.madx.ste.parenthesis.ParenthesisTree.QueryContainer;
 
 public abstract class QueryInterpreter {
 	private String SYMBOL;
-	private String SYMBOL_REGEX;
+	private String REGEX;
 	
 	protected int FIRST_GROUP;
-	protected int GROUP_SIZE;
+	protected int CAPTURING_GROUP_COUNT;
 	
 	private static HashMap<String, QueryInterpreter> interpreters = new LinkedHashMap<String, QueryInterpreter>();
 	
@@ -27,20 +27,21 @@ public abstract class QueryInterpreter {
 		QueryInterpreter.registerQueryExpression(SimpleQueryInterpreter.getInstance(), i);
 		QueryInterpreter.registerQueryExpression(ListQueryInterpreter.getInstance(), i);
 		QueryInterpreter.registerQueryExpression(StringReplaceInterpreter.getInstance(), i);
+		QueryInterpreter.registerQueryExpression(IfElseQueryInterpreter.getInstance(), i);
 		QueryInterpreter.registerQueryExpression(IfQueryInterpreter.getInstance(), i);
 		QueryInterpreter.registerQueryExpression(BalancedParenthesisReplacementInterpreter.getInstance(), i);
 	}
 
 	private static void registerQueryExpression(QueryInterpreter q, AtomicInteger i){
 		q.FIRST_GROUP = i.get();
-		i.set(i.get() + q.GROUP_SIZE);
+		i.set(i.get() + q.CAPTURING_GROUP_COUNT);
 		interpreters.put(q.SYMBOL, q);
 	}
 	
 	private static String getFullRegex(){
 		StringBuilder regexBuilder = new StringBuilder();
 		for (Map.Entry<String, QueryInterpreter> entry : interpreters.entrySet()) {
-			regexBuilder.append(entry.getValue().SYMBOL_REGEX + "|");
+			regexBuilder.append(entry.getValue().REGEX + "|");
 		}
 		String regex = regexBuilder.toString();
 		return regex.substring(0, regex.length()-1);
@@ -57,10 +58,10 @@ public abstract class QueryInterpreter {
 		throw new Exception("Cannot find any interpreter for this string");
 	}
 
-	protected QueryInterpreter(String symbol, String symbolRegex, int groupSize) {
+	protected QueryInterpreter(String symbol, String regex, int capturingGroupCount) {
 		this.SYMBOL = symbol;
-		this.SYMBOL_REGEX = Pattern.quote(symbol) + symbolRegex;
-		this.GROUP_SIZE = groupSize;
+		this.REGEX = regex;
+		this.CAPTURING_GROUP_COUNT = capturingGroupCount;
 	}
 	
 	protected QueryInterpreter(String symbol, String symbolRegex) {
