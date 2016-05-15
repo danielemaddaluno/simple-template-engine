@@ -20,9 +20,11 @@ import com.madx.ste.query.QueryInterpreter.Replacement;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class QueryInterpreterTest {
-	public static String test1 = "AHAH #{bool}, IF(#{bool}){#{f.x}} (aaa, #{bool}) {ccc, #{bool}} [bbb, #{bool}]";
-	public static String test2 = "insert into tab1 values (#{f.x}, #{f.y}, #{f.m})";
-	public static String test4 = "insert into tab1 values (#{a}, val1, val2) where cod1 in ${b} IF(#{d}){AND} IF(#{e}){OR} cod2 not in ${c}";
+	public static final String test1 = "AHAH #{bool}, IF(#{bool}){#{f.x}} (aaa, #{bool}) {ccc, #{bool}} [bbb, #{bool}]";
+	public static final String test2 = "insert into tab1 values (#{f.x}, #{f.y}, #{f.m})";
+	public static final String test4 = "insert into tab1 values (#{a}, val1, val2) where cod1 in ${b} IF(#{d}){AND} IF(#{e}){OR} cod2 not in ${c}";
+	public static final String test5 = "IFE(#{d}){---}ELSE{+++}";
+	
 	@Test
 	public void test1() throws Exception{
 		Map<String, Object> map = FieldAccessorTest.getMapExample();
@@ -95,5 +97,28 @@ public class QueryInterpreterTest {
 		assertEquals(o, r.objects);
 		System.out.println(test4);
 		System.out.println(r+"\n");
+	}
+	
+	@Test
+	public void test5_if_else_clause() throws Exception{
+		ExampleClass e1 = new ExampleClass(1, Arrays.asList(100D, 200D), new Long[]{123L, 456L, 789L}, true, false);
+		Replacement r1 = QueryInterpreter.getReplacement(test5, e1);
+		
+		assertEquals("---", r1.query);
+		List<Object> o1 = new ArrayList<Object>();
+		assertEquals(o1, r1.objects);
+		
+		System.out.println(test5);
+		System.out.println(r1+"\n");
+		
+		ExampleClass e2 = new ExampleClass(1, Arrays.asList(100D, 200D), new Long[]{123L, 456L, 789L}, false, false);
+		Replacement r2 = QueryInterpreter.getReplacement(test5, e2);
+		
+		assertEquals("+++", r2.query);
+		List<Object> o2 = new ArrayList<Object>();
+		assertEquals(o2, r2.objects);
+		
+		System.out.println(test5);
+		System.out.println(r2+"\n");
 	}
 }

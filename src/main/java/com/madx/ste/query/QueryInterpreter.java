@@ -18,7 +18,7 @@ public abstract class QueryInterpreter {
 	private String REGEX;
 	
 	protected int FIRST_GROUP;
-	protected int GROUP_SIZE;
+	protected int CAPTURING_GROUP_COUNT;
 	
 	private static HashMap<String, QueryInterpreter> interpreters = new LinkedHashMap<String, QueryInterpreter>();
 	
@@ -34,7 +34,7 @@ public abstract class QueryInterpreter {
 
 	private static void registerQueryExpression(QueryInterpreter q, AtomicInteger i){
 		q.FIRST_GROUP = i.get();
-		i.set(i.get() + q.GROUP_SIZE);
+		i.set(i.get() + q.CAPTURING_GROUP_COUNT);
 		interpreters.put(q.SYMBOL, q);
 	}
 	
@@ -58,10 +58,10 @@ public abstract class QueryInterpreter {
 		throw new Exception("Cannot find any interpreter for this string");
 	}
 
-	protected QueryInterpreter(String symbol, String regex, int groupSize) {
+	protected QueryInterpreter(String symbol, String regex, int capturingGroupCount) {
 		this.SYMBOL = symbol;
 		this.REGEX = regex;
-		this.GROUP_SIZE = groupSize;
+		this.CAPTURING_GROUP_COUNT = capturingGroupCount;
 	}
 	
 	protected QueryInterpreter(String symbol, String symbolRegex) {
@@ -82,7 +82,7 @@ public abstract class QueryInterpreter {
 		int offset = 0;
 		while (m.find()) {
 			String token = m.group();
-			System.out.println(token);
+//			System.out.println(token);
 			QueryInterpreter q = QueryInterpreter.getInterpreterFromString(token);
 			Replacement r = q.evaluateExpression(obj, m, c);
 			list.addAll(r.objects);
