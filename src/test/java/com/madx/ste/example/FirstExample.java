@@ -37,6 +37,32 @@ public class FirstExample {
 	public void setM(String m) {
 		this.m = m;
 	}
-	
-	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FirstExample other = (FirstExample) obj;
+		if (m == null) {
+			if (other.m != null)
+				return false;
+		} else if (!m.equals(other.m))
+			return false;
+		if (x == null) {
+			if (other.x != null)
+				return false;
+		} else if (!x.equals(other.x))
+			return false;
+		if (y != other.y)
+			return false;
+		if (z == null) {
+			if (other.z != null)
+				return false;
+		} else if (!z.equals(other.z))
+			return false;
+		return true;
+	}
 }

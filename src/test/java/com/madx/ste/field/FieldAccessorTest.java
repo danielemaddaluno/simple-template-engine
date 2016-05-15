@@ -1,6 +1,7 @@
 package com.madx.ste.field;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -63,14 +64,10 @@ public class FieldAccessorTest {
 	@Test
 	public void test3_array() throws Exception{
 		Object o1 = FieldAccessor.getObjectFromComplexField(f, "z.e");
-		assertEquals(o1, f.getZ().getE());
+		Object o2 = FieldAccessor.getObjectFromComplexField(m, "f.z.e");
 		
-		// TODO verify why this is not returning the same pointer to the same object
-//		Object o2 = FieldAccessor.getObjectFromComplexField(m, "f.z.e");
-//		assertEquals(o2, f.getZ().getE());
-//		System.out.println(o2);
-//		System.out.println(f.getZ().getE());
-//		System.out.println();
+		assertArrayEquals((Object[])o1, f.getZ().getE());
+		assertArrayEquals((Object[])o2, f.getZ().getE());
 	}
 	
 	@Test
