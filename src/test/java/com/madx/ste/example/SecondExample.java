@@ -1,5 +1,6 @@
 package com.madx.ste.example;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class SecondExample {
@@ -29,4 +30,25 @@ public class SecondExample {
 	public void setE(Integer[] e) {
 		this.e = e;
 	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SecondExample other = (SecondExample) obj;
+		if (!Arrays.equals(e, other.e))
+			return false;
+		if (q != other.q)
+			return false;
+		if (w == null) {
+			if (other.w != null)
+				return false;
+		} else if (!w.equals(other.w))
+			return false;
+		return true;
+	}
+	
 }
