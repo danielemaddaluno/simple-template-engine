@@ -27,6 +27,7 @@ public abstract class QueryInterpreter {
 		QueryInterpreter.registerQueryExpression(SimpleQueryInterpreter.getInstance(), i);
 		QueryInterpreter.registerQueryExpression(ListQueryInterpreter.getInstance(), i);
 		QueryInterpreter.registerQueryExpression(StringReplaceInterpreter.getInstance(), i);
+		QueryInterpreter.registerQueryExpression(IfElseQueryInterpreter.getInstance(), i);
 		QueryInterpreter.registerQueryExpression(IfQueryInterpreter.getInstance(), i);
 		QueryInterpreter.registerQueryExpression(BalancedParenthesisReplacementInterpreter.getInstance(), i);
 	}
@@ -81,7 +82,7 @@ public abstract class QueryInterpreter {
 		int offset = 0;
 		while (m.find()) {
 			String token = m.group();
-//			System.out.println(token);
+			System.out.println(token);
 			QueryInterpreter q = QueryInterpreter.getInterpreterFromString(token);
 			Replacement r = q.evaluateExpression(obj, m, c);
 			list.addAll(r.objects);
