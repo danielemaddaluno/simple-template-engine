@@ -27,7 +27,7 @@ public class ReadmeExample {
 		}
 	}
 
-	private static final String QUERY = "insert into tab1 values (#{a}, val1, val2) where cod1 in ${b} IF(#{d}){AND cod2 = #{a} AND } IF(#{e}){OR} cod3 not in ${c}";
+	private static final String QUERY = "insert into tab1 values (#{a}, val1, val2 IF(#{e}){, 5} ) where cod1 in ${b} IFE(#{d}){AND cod2 = #{a} AND }ELSE{AND cod3 = #{e} AND } cod4 not in ${c}";
 
 	public static void main(String[] args) throws Exception {
 		ExampleClass e = new ExampleClass(1, Arrays.asList(100D, 200D), new Long[]{123L, 456L, 789L}, true, false);
@@ -40,5 +40,7 @@ public class ReadmeExample {
     
 Which will print you out:
 
-	insert into tab1 values (?, val1, val2) where cod1 in (?, ?) AND cod2 = ? AND   cod3 not in (?, ?, ?)
-	[1, 100.0, 200.0, 1, 123, 456, 789]
+``` sql
+insert into tab1 values (?, val1, val2  ) where cod1 in (?, ?) AND cod2 = ? AND  cod4 not in (?, ?, ?)
+[1, 100.0, 200.0, 1, 123, 456, 789]
+```
