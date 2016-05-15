@@ -2,6 +2,7 @@ package com.madx.ste.query;
 
 import java.util.Collections;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.madx.ste.parenthesis.Parenthesis;
 import com.madx.ste.parenthesis.ParenthesisTree;
@@ -17,7 +18,7 @@ class IfQueryInterpreter extends QueryInterpreter {
 	}
 
 	protected IfQueryInterpreter() {
-		super("IF", Parenthesis.PAREN.getRegex() + Parenthesis.BRACE.getRegex(), 2);
+		super("IF", Pattern.quote("IF") + Parenthesis.PAREN.getRegex() + Parenthesis.BRACE.getRegex(), 2);
 	}
 
 	@Override
@@ -30,7 +31,9 @@ class IfQueryInterpreter extends QueryInterpreter {
 			ifCondition = ifCondition.replace(ifCondition, c.getReplacement(ifCondition));
 		}
 
-		Boolean condition = (Boolean) QueryInterpreter.getReplacement(new QueryContainer(ifCondition, c.replacements), navigated).objects.get(0);
+		Object obj_condition = QueryInterpreter.getReplacement(new QueryContainer(ifCondition, c.replacements), navigated).objects.get(0);
+		if(!obj_condition.getClass().equals(boolean.class) && ! obj_condition.getClass().equals(Boolean.class)) throw new Exception("If condition must be a boolean");
+		Boolean condition = (Boolean) obj_condition;
 		if(condition.booleanValue()){
 			if(ifExpression.startsWith(ParenthesisTree.REPL)){
 				ifExpression = ifExpression.replace(ifExpression, c.getReplacement(ifExpression));

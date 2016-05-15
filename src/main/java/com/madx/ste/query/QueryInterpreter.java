@@ -15,7 +15,7 @@ import com.madx.ste.parenthesis.ParenthesisTree.QueryContainer;
 
 public abstract class QueryInterpreter {
 	private String SYMBOL;
-	private String SYMBOL_REGEX;
+	private String REGEX;
 	
 	protected int FIRST_GROUP;
 	protected int GROUP_SIZE;
@@ -40,7 +40,7 @@ public abstract class QueryInterpreter {
 	private static String getFullRegex(){
 		StringBuilder regexBuilder = new StringBuilder();
 		for (Map.Entry<String, QueryInterpreter> entry : interpreters.entrySet()) {
-			regexBuilder.append(entry.getValue().SYMBOL_REGEX + "|");
+			regexBuilder.append(entry.getValue().REGEX + "|");
 		}
 		String regex = regexBuilder.toString();
 		return regex.substring(0, regex.length()-1);
@@ -57,9 +57,9 @@ public abstract class QueryInterpreter {
 		throw new Exception("Cannot find any interpreter for this string");
 	}
 
-	protected QueryInterpreter(String symbol, String symbolRegex, int groupSize) {
+	protected QueryInterpreter(String symbol, String regex, int groupSize) {
 		this.SYMBOL = symbol;
-		this.SYMBOL_REGEX = Pattern.quote(symbol) + symbolRegex;
+		this.REGEX = regex;
 		this.GROUP_SIZE = groupSize;
 	}
 	
